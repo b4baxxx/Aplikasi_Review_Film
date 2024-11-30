@@ -24,14 +24,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class DetailScreen extends StatelessWidget {
-  final dynamic movie;
-
-  const DetailScreen({super.key, required this.movie});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-

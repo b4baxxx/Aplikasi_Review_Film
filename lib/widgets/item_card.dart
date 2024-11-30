@@ -51,7 +51,7 @@ class ItemCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 16, bottom: 8),
               child: Text(
-                movie.genre,
+                movie.type,
                 style: TextStyle(
                   fontSize: 12,
                 ),

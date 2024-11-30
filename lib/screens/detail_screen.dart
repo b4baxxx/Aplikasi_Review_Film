@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:aplikasi_review_film/data/movie_data.dart';
 
-
 class DetailScreen extends StatelessWidget {
   final dynamic movie;
 
@@ -10,7 +9,7 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
+    return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -55,7 +54,7 @@ class DetailScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 16,),
+                  SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -67,37 +66,58 @@ class DetailScreen extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: (){},
+                        onPressed: () {},
                         icon: Icon(Icons.favorite_border),
                       )
                     ],
                   ),
-                  SizedBox(height: 16,),
-                  Row(children: [
-                    Icon(Icons.place, color: Colors.red,),
-                    SizedBox(width: 8,),
-                    SizedBox(width: 70,
-                      child: Text('Tayang di', style: TextStyle(
-                          fontWeight: FontWeight.bold),),),
-                    Text(': ${movie.location}',),
-                  ],),
-                    Row(children: [
-                    Icon(Icons.calendar_today, color: Colors.grey,),
-                    SizedBox(width: 8,),
-                    SizedBox(width: 70,
-                      child: Text('Dirilis', style: TextStyle(
-                          fontWeight: FontWeight.bold),),),
-                  ],),
-                  Row(children: [
-                    Icon(Icons.movie, color: Colors.grey,),
-                    SizedBox(width: 8,),
-                    SizedBox(width: 70,
-                      child: Text('Genre', style: TextStyle(
-                          fontWeight: FontWeight.bold),),),
-                  ],),
-                  SizedBox(height: 16,),
-                  Divider(color: Colors.deepPurple.shade100,),
-                  SizedBox(height: 16,),
+                  SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Icon(Icons.place, color: Colors.red),
+                      SizedBox(width: 8),
+                      SizedBox(
+                        width: 70,
+                        child: Text('Asal Film', style: TextStyle(
+                            fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Text(': ${movie.location}'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.calendar_month, color: Colors.black),
+                      SizedBox(width: 8),
+                      SizedBox(
+                        width: 70,
+                        child: Text('Dirilis', style: TextStyle(
+                            fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Text(': ${movie.built}')
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.movie, color: Colors.black),
+                      SizedBox(width: 8),
+                      SizedBox(
+                        width: 70,
+                        child: Text('Genre',style: TextStyle(
+                            fontWeight: FontWeight.bold),),
+                      ),
+                      Text(': ${movie.type}'),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Divider(color: Colors.deepPurple.shade100),
+                  Text(
+                    'Deskripsi', style: TextStyle(
+                    fontWeight: FontWeight.bold,),),
+                  SizedBox(height: 10),
+                  Text('${movie.description}'),
+                  SizedBox(height: 16),
                 ],
               ),
             ),
@@ -106,28 +126,30 @@ class DetailScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Divider(color: Colors.deepPurple.shade100,),
+                  Divider(color: Colors.deepPurple.shade100),
                   Text('Aktor yang berperan', style: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.bold,
-                  ),),
-                  SizedBox(height: 10,),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
                   SizedBox(
                     height: 100,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: movie.imageUrls.length,
-                      itemBuilder: (context, index){
+                      itemBuilder: (context, index) {
                         return Padding(
                           padding: EdgeInsets.only(left: 8),
                           child: GestureDetector(
                             onTap: () {},
                             child: Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color: Colors.deepPurple.shade100,
-                                    width: 2,
-                                  ),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Colors.deepPurple.shade100,
+                                  width: 2,
+                                ),
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
@@ -141,7 +163,8 @@ class DetailScreen extends StatelessWidget {
                                     height: 120,
                                     color: Colors.deepPurple[50],
                                   ),
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                 ),
                               ),
                             ),
@@ -150,10 +173,12 @@ class DetailScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(height: 4,),
+                  SizedBox(height: 4),
                   Text('Tap untuk melihat aktor lebih jelas', style: TextStyle(
-                    fontSize: 12, color: Colors.black54,
-                  ),),
+                      fontSize: 12,
+                      color: Colors.black54,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -163,4 +188,3 @@ class DetailScreen extends StatelessWidget {
     );
   }
 }
-

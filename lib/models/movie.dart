@@ -3,7 +3,7 @@ class Movie {
   final String location;
   final String description;
   final String built;
-  final String genre;
+  final String type;
   final String imageAsset;
   final List<String> imageUrls;
   bool isFavorite;
@@ -13,7 +13,7 @@ class Movie {
     required this.location,
     required this.description,
     required this.built,
-    required this.genre,
+    required this.type,
     required this.imageAsset,
     required this.imageUrls,
     this.isFavorite = false,
