@@ -7,7 +7,7 @@ var movieList = [
     description:
     'Fast X (2023) adalah film aksi petualangan yang menjadi bagian ke-10 dari waralaba Fast & Furious. Film ini melanjutkan kisah Dominic Toretto dan keluarganya yang menghadapi ancaman baru dari Dante Reyes, putra mantan musuh mereka. Dante bertekad untuk membalas dendam atas kematian ayahnya dan menghancurkan Dom serta orang-orang yang dicintainya. Fast X menghadirkan aksi penuh adrenalin, balapan mobil ikonik, dan pertarungan epik yang membentang di berbagai belahan dunia.',
     built: '2023',
-    type: 'Action',
+    type: 'Laga/Kejahatan ‧ 2 j 21 m',
     imageAsset: 'images/fastx.jpg',
     imageUrls: [
       'images/fastx/jason.jpg',
@@ -25,7 +25,7 @@ var movieList = [
     description:
     '"Venom: The Last Dance" adalah film aksi fiksi ilmiah tahun 2024 yang melanjutkan kisah Eddie Brock (diperankan oleh Tom Hardy) dan simbiotnya, Venom. Film ini mengangkat ancaman baru yang lebih besar, yaitu Xenophage, makhluk pemburu yang dikirim untuk mendapatkan Codex—komponen vital yang terbentuk saat simbiot membangkitkan inangnya. Codex ini dapat membebaskan Knull, pencipta para simbiot, dari penjara kosmiknya. Kisah ini membawa Eddie dan Venom dalam pelarian dari New York ke Las Vegas hingga Area 51, bertemu dengan karakter-karakter baru seperti Dr. Teddy Payne (Juno Temple), Martin Moon (Rhys Ifans), dan Sadie Christmas (Clark Backo). Di Area 51, pertempuran besar terjadi ketika Venom harus menghadapi Xenophage dan pengikut Knull. Film ini menampilkan pengorbanan Venom untuk menghancurkan Codex demi menyelamatkan alam semesta, namun berakhir dengan ancaman baru dari Knull di adegan mid-credit.',
     built: '2024',
-    type: 'Superhero',
+    type: 'Laga/Fiksi ilmiah ‧ 1 j 49 m',
     imageAsset: 'images/venom.jpg',
     imageUrls: [
       'images/venom/chiweter.jpg',
@@ -45,7 +45,7 @@ var movieList = [
     description:
     'Bila Esok Ibu Tiada adalah film drama keluarga yang mengisahkan perjuangan seorang ibu tunggal dalam menghadapi penyakit serius yang mengancam hidupnya. Di tengah perjuangan melawan penyakit, sang ibu berusaha mempersiapkan anak-anaknya untuk menghadapi dunia tanpa kehadirannya. Film ini menggambarkan cinta tanpa syarat, pengorbanan, serta kekuatan keluarga dalam menghadapi kehilangan yang tak terelakkan. Dengan alur cerita yang emosional, Bila Esok Ibu Tiada mengajak penonton untuk menghargai setiap momen bersama orang-orang tercinta sebelum terlambat.',
     built: '2024',
-    type: 'Drama Keluarga',
+    type: 'Drama Keluarga ‧ 1 j 44 m',
     imageAsset: 'images/tiada.jpeg',
     imageUrls: [
       'images/bilaesokibutiada/adinia.jpg',
@@ -63,7 +63,7 @@ var movieList = [
     description:
     'The Wild Robot adalah film animasi petualangan yang diadaptasi dari novel populer karya Peter Brown. Ceritanya mengikuti Roz, sebuah robot yang terdampar di sebuah pulau terpencil setelah kecelakaan kapal. Di tengah lingkungan liar yang asing, Roz harus belajar bertahan hidup, memahami alam, dan menjalin persahabatan dengan hewan-hewan penghuni pulau. Film ini menyuguhkan kisah yang penuh kehangatan tentang koneksi antara teknologi, alam, dan nilai-nilai kemanusiaan, dengan pesan mendalam tentang cinta, persahabatan, dan menemukan tempat kita di dunia.',
     built: '2024',
-    type: 'Fiksi Ilmiah',
+    type: 'Anak-anak/Petualangan ‧ 1 j 42 m',
     imageAsset: 'images/thewildrobot.jpg',
     imageUrls: [
       'images/thewildrobot/alexandra.jpg',
@@ -80,7 +80,7 @@ var movieList = [
     description:
     'Santet Sengoro Pitu adalah film horor mistis yang terinspirasi dari legenda lokal tentang tujuh dukun sakti yang dikenal sebagai Sengoro Pitu. Mereka adalah para ahli ilmu hitam yang menguasai ilmu santet mematikan dan meneror sebuah desa kecil. Ketika seorang pemuda kembali ke desa tersebut untuk mengungkap misteri kematian keluarganya, ia menemukan bahwa kekuatan gelap Sengoro Pitu masih hidup dan mengincarnya. Dengan atmosfer mencekam, ritual mistis, dan elemen horor tradisional, film ini menyajikan kisah penuh ketegangan tentang balas dendam, kutukan, dan perjuangan melawan kekuatan gaib yang tak terlihat.',
     built: '2024',
-    type: 'Horor',
+    type: 'Horor ‧ 1 j 34 m',
     imageAsset: 'images/sgp.jpg',
     imageUrls: [
       'images/sgp/ari.jpg',
@@ -92,12 +92,12 @@ var movieList = [
     isFavorite: false,
   ),
   Movie(
-    name: 'Kung-fu Panda',
+    name: 'Kung fu Panda',
     location: 'Amerika Serikat',
     description:
     'Kung Fu Panda adalah film animasi aksi-komedi yang mengikuti perjalanan Po, seekor panda ceroboh yang bercita-cita menjadi master kung fu. Meski awalnya diragukan, Po terpilih sebagai Dragon Warrior, pahlawan legendaris yang ditakdirkan untuk melindungi Lembah Perdamaian dari ancaman musuh kuat. Dibimbing oleh Master Shifu dan bersama lima pendekar kung fu legendaris, The Furious Five, Po harus mengatasi keraguan dirinya dan menemukan kekuatan sejatinya. Film ini menyajikan aksi kung fu yang menghibur, humor yang menyenangkan, serta pesan mendalam tentang percaya pada diri sendiri.',
     built: '2008',
-    type: 'Fiksi Ilmiah',
+    type: 'Petualangan/Laga ‧ 1 j 35 m',
     imageAsset: 'images/panda.jpg',
     imageUrls: [
       'images/kungfupanda/angelina.jpg',
@@ -115,8 +115,8 @@ var movieList = [
     location: 'Indonesia',
     description:
     'KKN di Desa Penari adalah film horor Indonesia yang diadaptasi dari kisah nyata yang viral di internet. Film ini menceritakan pengalaman sekelompok mahasiswa yang melakukan program Kuliah Kerja Nyata (KKN) di sebuah desa terpencil yang penuh misteri. Tanpa mereka sadari, desa tersebut menyimpan rahasia kelam dan dihuni oleh makhluk gaib yang dikenal sebagai Badarawuhi, sosok penari mistis yang membawa teror. Seiring waktu, mereka mulai mengalami kejadian-kejadian aneh dan mencekam yang mengancam keselamatan mereka. Teror semakin intens ketika mereka melanggar aturan-aturan tak tertulis yang ada di desa tersebut. Film ini menampilkan suasana mencekam, mitos lokal, dan cerita tentang karma yang mengerikan, menjadikannya salah satu film horor Indonesia yang paling menegangkan dan sukses secara komersial.',
-    built: '2023',
-    type: 'Horor',
+    built: '2022',
+    type: 'Horor/Misteri ‧ 2 j 1 m',
     imageAsset: 'images/kkn.jpg',
     imageUrls: [
       'images/kkn/achmad.jpg',
@@ -129,12 +129,12 @@ var movieList = [
     isFavorite: false,
   ),
   Movie(
-    name: 'Hellboy',
+    name: 'Hellboy : The Crooked Man',
     location: 'Seluruh Dunia',
     description:
     'Hellboy adalah film aksi fantasi yang diadaptasi dari komik karya Mike Mignola. Film ini mengisahkan perjalanan Hellboy, makhluk setengah iblis yang dipanggil ke dunia manusia saat Perang Dunia II oleh kekuatan gelap. Dibesarkan oleh Profesor Trevor Bruttenholm, Hellboy tumbuh menjadi bagian dari Bureau for Paranormal Research and Defense (BPRD), sebuah organisasi yang menangani ancaman supranatural. Dengan kekuatan super, tangan kanan batu yang ikonik, dan pistol raksasa, Hellboy bertarung melawan berbagai makhluk mistis dan ancaman dunia lain. Meski tampak seperti monster, Hellboy terus berjuang untuk melindungi manusia dan menemukan jati dirinya di tengah pertarungan antara kebaikan dan kejahatan. Film ini memadukan aksi, horor, dan elemen komedi gelap dengan visual yang penuh fantasi dan mitologi.',
     built: '2024',
-    type: 'Action',
+    type: 'Horor/Laga ‧ 1 j 40 m',
     imageAsset: 'images/hellboy.jpg',
     imageUrls: [
       'images/hellboy/adeline.jpg',
@@ -153,7 +153,7 @@ var movieList = [
     description:
     'Bene, Boris, Jegel, dan Oki merupakan empat sekawan yang telah berteman sejak lama. Namun, kondisi ekonomi mereka masih terpuruk meski sudah lama merantau. Keempat sahabat itu akhirnya melihat peluang baru saat pasar malam baru didirikan di dekat kediaman mereka. Bene, Boris, Jegel, dan Oki memutuskan membuat wahana rumah hantu di pasar malam tersebut. Mereka tidak hanya mengelola rumah hantu itu, tetapi juga menyiapkan konsep hingga menjadi hantu untuk menakut-nakuti pengunjung. Namun, usaha mereka semula gagal karena tak ada pengunjung yang merasa ketakutan ketika memasuki rumah hantu. Empat sekawan itu lantas memutar otak untuk menyelamatkan bisnis tersebut. Mereka akhirnya mendapat sebuah ide, yakni merenovasi rumah hantu agar menjadi lebih menyeramkan. Renovasi itu cukup berhasil karena nuansa mistis di sepanjang ruangan rumah hantu benar-benar terasa. Seorang pengunjung bernama Basuki memasuki rumah hantu versi terbaru itu sebagai pengunjung pertama.',
     built: '2024',
-    type: 'Comedi',
+    type: 'Horor/Komedi ‧ 1 j 59 m',
     imageAsset: 'images/agaklaen.jpeg',
     imageUrls: [
       'images/agaklaen/anggi.jpg',
@@ -171,7 +171,7 @@ var movieList = [
     description:
     'Film ini menceritakan tentang upaya Tony Stark (Robert Downey Jr.) dan Bruce Banner (Mark Ruffalo) untuk memulai program perdamaian global yang terbengkalai, yang kemudian memicu bencana. Program tersebut menciptakan kecerdasan buatan bernama Ultron (James Spader), yang kemudian menjadi jahat dan berencana untuk memusnahkan umat manusia. Avengers harus bersatu untuk menghentikan Ultron dan menyelamatkan dunia. Mereka menghadapi berbagai tantangan, termasuk pertempuran dengan Ultron dan pasukannya, serta konflik internal di antara anggota tim.',
     built: '2015',
-    type: 'Action',
+    type: ' Laga/Fiksi ilmiah ‧ 2 j 21 m',
     imageAsset: 'images/avengers.jpg',
     imageUrls: [
       'images/avengers/chris.jpg',

@@ -67,11 +67,12 @@ class DetailScreen extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {},
-                        icon: Icon(Icons.favorite_border),
+                        icon: Icon(Icons.favorite, color: Colors.red,),
                       )
                     ],
                   ),
                   SizedBox(height: 16),
+                  Divider(),
                   Row(
                     children: [
                       Icon(Icons.place, color: Colors.red),
@@ -82,6 +83,7 @@ class DetailScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                         ),
                       ),
+                      SizedBox(height: 30,),
                       Text(': ${movie.location}'),
                     ],
                   ),
@@ -95,6 +97,7 @@ class DetailScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                         ),
                       ),
+                      SizedBox(height: 38,),
                       Text(': ${movie.built}')
                     ],
                   ),

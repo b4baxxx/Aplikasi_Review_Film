@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
-        title: Text('Film Populer',),),
+        title: Text('MovieScope',),),
       backgroundColor: Colors.white,
       body: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
