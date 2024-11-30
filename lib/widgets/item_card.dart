@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:aplikasi_review_film/models/movie.dart';
+import 'package:flutter/material.dart';
 import 'package:aplikasi_review_film/screens/detail_screen.dart';
 
-class MovieCard extends StatelessWidget {
-  // TODO : 1. Deklarasikan variabel yg dibutuhkan dan pasang pada konstruktor
+class ItemCard extends StatelessWidget {
   final Movie movie;
 
-  MovieCard({required this.movie});
+  ItemCard({required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +14,16 @@ class MovieCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>DetailScreen(movie: movie),
+            builder: (context) => DetailScreen(movie: movie),
           ),
         );
       },
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
         margin: EdgeInsets.all(4),
-        elevation: 1,
+        elevation: 10,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,13 +32,14 @@ class MovieCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 child: Image.asset(
                   movie.imageAsset,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
+                  width: double.infinity, // Memastikan gambar mengisi lebar
+                  height: 220,
+                  fit: BoxFit.fill, // Gambar akan dipanjangkan sesuai ruang
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 16, top: 8),
+              padding: EdgeInsets.only(left: 16, top: 6),
               child: Text(
                 movie.name,
                 style: TextStyle(
@@ -49,7 +51,7 @@ class MovieCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 16, bottom: 8),
               child: Text(
-                movie.type,
+                movie.genre,
                 style: TextStyle(
                   fontSize: 12,
                 ),

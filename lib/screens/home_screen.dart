@@ -1,28 +1,29 @@
+import 'package:aplikasi_review_film/data/movie_data.dart';
+import 'package:aplikasi_review_film/models/movie.dart';
+import 'package:aplikasi_review_film/widgets/item_card.dart';
 import 'package:flutter/material.dart';
-import '../data/movie_data.dart';
 
-class HomeScreen extends StatelessWidget {
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  Widget build(BuildContext context) {
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+ class _HomeScreenState extends State<HomeScreen> {
+  @override
+   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Aplikasi Review Film'),
-      ),
-      body: ListView.builder(
-        itemCount: movies.length,
+      appBar: AppBar(title: Text('Film Populer'),),
+      body: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        padding: EdgeInsets.all(8),
+        itemCount: movieList.length,
         itemBuilder: (context, index) {
-          final movie = movies[index];
-          return ListTile(
-            leading: Image.asset(movie.imageUrl, width: 50, height: 50),
-            title: Text(movie.title),
-            subtitle: Text(movie.description),
-            onTap: () {
-              Navigator.pushNamed(context, '/movie-detail', arguments: movie);
-            },
-
-          );
+          final Movie movie = movieList[index];
+          return ItemCard(movie: movie);
         },
       ),
     );
   }
-}
+ }
