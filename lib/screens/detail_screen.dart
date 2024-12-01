@@ -73,6 +73,7 @@ class DetailScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Divider(),
+                  // Widget yg dpt digunakan untuk menempatkan widget widget lainnya secara horizontal
                   Row(
                     children: [
                       Icon(Icons.place, color: Colors.red),

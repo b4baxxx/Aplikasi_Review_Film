@@ -15,16 +15,16 @@ class HomeScreen extends StatefulWidget {
    Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.grey, // warna background grey
         title: Text('MovieScope',),),
       backgroundColor: Colors.white,
-      body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      body: GridView.builder( // parameter
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2), // menentukan tata letak grid dengan jumlah kolom yang tetap (fixed)
         padding: EdgeInsets.all(8),
-        itemCount: movieList.length,
+        itemCount: movieList.length, // total elemen pada directory data
         itemBuilder: (context, index) {
-          final Movie movie = movieList[index];
-          return ItemCard(movie: movie);
+          final Movie movie = movieList[index]; // parameter direcotry models yg mengambil data dari movieList[directory data]
+          return ItemCard(movie: movie); // mengambil fungsi dari ItemCard dengan import package widgets ItemCard
         },
       ),
     );
