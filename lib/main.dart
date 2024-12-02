@@ -1,6 +1,7 @@
 import 'package:aplikasi_review_film/data/movie_data.dart';
 import 'package:aplikasi_review_film/models/movie.dart';
 import 'package:aplikasi_review_film/screens/home_screen.dart';
+import 'package:aplikasi_review_film/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       //home: DetailScreen(),
-      home: HomeScreen(),
+      home: ProfileScreen(),
     );
   }
 }
