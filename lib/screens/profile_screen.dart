@@ -92,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Icon(Icons.person, color: Colors.blue,),
                           SizedBox(width: 8),
-                          Text('Pengguna', style: TextStyle(
+                          Text('Nama', style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold,
                           ),),
                         ],
@@ -113,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Icon(Icons.favorite, color: Colors.red,),
                           SizedBox(width: 8),
-                          Text('Pengguna', style: TextStyle(
+                          Text('Favorite', style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold,
                           ),),
                         ],

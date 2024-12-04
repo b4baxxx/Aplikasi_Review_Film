@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
    Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey, // warna background grey
+        backgroundColor: Colors.blue, // warna background grey
         title: Text('MovieScope',),),
       backgroundColor: Colors.white,
       body: GridView.builder( // parameter

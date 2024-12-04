@@ -130,7 +130,7 @@ var movieList = [
   ),
   Movie(
     name: 'Hellboy : The Crooked Man',
-    location: 'Seluruh Dunia',
+    location: 'Amerika',
     description:
     'Hellboy adalah film aksi fantasi yang diadaptasi dari komik karya Mike Mignola. Film ini mengisahkan perjalanan Hellboy, makhluk setengah iblis yang dipanggil ke dunia manusia saat Perang Dunia II oleh kekuatan gelap. Dibesarkan oleh Profesor Trevor Bruttenholm, Hellboy tumbuh menjadi bagian dari Bureau for Paranormal Research and Defense (BPRD), sebuah organisasi yang menangani ancaman supranatural. Dengan kekuatan super, tangan kanan batu yang ikonik, dan pistol raksasa, Hellboy bertarung melawan berbagai makhluk mistis dan ancaman dunia lain. Meski tampak seperti monster, Hellboy terus berjuang untuk melindungi manusia dan menemukan jati dirinya di tengah pertarungan antara kebaikan dan kejahatan. Film ini memadukan aksi, horor, dan elemen komedi gelap dengan visual yang penuh fantasi dan mitologi.',
     built: '2024',
