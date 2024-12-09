@@ -1,8 +1,11 @@
 import 'package:aplikasi_review_film/data/movie_data.dart';
 import 'package:aplikasi_review_film/models/movie.dart';
 import 'package:aplikasi_review_film/screens/home_screen.dart';
+import 'package:aplikasi_review_film/screens/login_screen.dart';
 import 'package:aplikasi_review_film/screens/profile_screen.dart';
+import 'package:aplikasi_review_film/screens/register_screen.dart';
 import 'package:aplikasi_review_film/screens/search_screen.dart';
+import 'package:aplikasi_review_film/screens/wishlist_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,7 +27,7 @@ class MyApp extends StatelessWidget {
       // home: HomeScreen(),
       // home: ProfileScreen(),
       // home: SearchScreen(),
-      home: MainScreen(),
+      home: RegisterScreen(),
     );
   }
 }
@@ -43,6 +46,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _children = [
     const HomeScreen(),
     const SearchScreen(),
+    const WishlistScreen(),
     const ProfileScreen(),
   ];
 
