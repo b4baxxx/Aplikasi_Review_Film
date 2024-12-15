@@ -5,7 +5,7 @@ import 'package:aplikasi_review_film/screens/login_screen.dart';
 import 'package:aplikasi_review_film/screens/profile_screen.dart';
 import 'package:aplikasi_review_film/screens/register_screen.dart';
 import 'package:aplikasi_review_film/screens/search_screen.dart';
-import 'package:aplikasi_review_film/screens/wishlist_screen.dart';
+import 'package:aplikasi_review_film/screens/watchlist_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -28,12 +28,12 @@ class MyApp extends StatelessWidget {
       // home: ProfileScreen(),
       // home: SearchScreen(),
       // home: RegisterScreen(),
-      // home: MainScreen(),
+      home: MainScreen(),
       // home: LoginScreen(),
       initialRoute: '/',
       routes: {
         '/homescreen': (context) => const HomeScreen(),
-        '/wishlist': (context) => WishlistScreen(),
+        '/watchlist': (context) => WatchlistScreen(),
         '/login': (context) => LoginScreen(),
         '/register': (context) => const RegisterScreen(),
       },
@@ -55,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _children = [
     const HomeScreen(),
     const SearchScreen(),
-    const WishlistScreen(),
+    const WatchlistScreen(),
     const ProfileScreen(),
   ];
 
@@ -84,8 +84,8 @@ class _MainScreenState extends State<MainScreen> {
               label: 'Search',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, color: Colors.black,),
-              label: 'Wishlist',
+              icon: Icon(Icons.watch_later, color: Colors.black,),
+              label: 'Watchlist',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person, color: Colors.black,),

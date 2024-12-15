@@ -41,6 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       final iv = encrypt.IV.fromLength(16);
 
       final encrypter = encrypt.Encrypter(encrypt.AES(key));
+      final encryptedName = encrypter.encrypt(name, iv: iv);
       final encryptedUsername = encrypter.encrypt(username, iv: iv);
       final encryptedPassword = encrypter.encrypt(password, iv: iv);
 

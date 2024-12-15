@@ -4,15 +4,15 @@ import 'package:aplikasi_review_film/data/movie_data.dart';
 import 'package:aplikasi_review_film/models/movie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class WishlistScreen extends StatefulWidget {
-  const WishlistScreen({super.key});
+class WatchlistScreen extends StatefulWidget {
+  const WatchlistScreen({super.key});
 
   @override
-  State<WishlistScreen> createState() => _WishlistScreenState();
+  State<WatchlistScreen> createState() => _WatchlistScreenState();
 }
 
-class _WishlistScreenState extends State<WishlistScreen> {
-  List<Movie> wishlistMovie = [];
+class _WatchlistScreenState extends State<WatchlistScreen> {
+  List<Movie> watchListMovie = [];
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     print('Wishlist IDs: $wishlistMovieIds');
 
     setState(() {
-      wishlistMovie = movieList.where((movie) {
+      watchListMovie = movieList.where((movie) {
         return wishlistMovieIds.contains(movie.id.toString());
       }).toList();
     });
@@ -60,9 +60,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
           ),
-          itemCount: wishlistMovie.length,
+          itemCount: watchListMovie.length,
           itemBuilder: (context, index) {
-            Movie movie = wishlistMovie[index];
+            Movie movie = watchListMovie[index];
             print('Showing movie: ${movie.name}');
             return Stack(
               children: [

@@ -13,78 +13,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isSignedIn = false;
   String fullName = '';
   String userName = '';
-  int favoriteMovieCount = 0;
+  int FavoriteMovieCount = 0;
 
-  // Enkripsi key
-  final key = encrypt.Key.fromUtf8('');
-  final encrypter = encrypt.Encrypter(encrypt.AES(key));
-
-  @override
-  void initState() {
-    super.initState();
-    _loadUserData();
-  }
-
-  // Fungsi untuk memuat data pengguna dari SharedPreferences
-  void _loadUserData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  void signIn () {
     setState(() {
-      isSignedIn = prefs.getBool('isSignedIn') ?? false;
-      userName = prefs.getString('username') ?? '';
-      fullName = _decryptName(prefs.getString('name') ?? '');
-      favoriteMovieCount = prefs.getInt('favoriteMovieCount') ?? 0;
+      isSignedIn = !isSignedIn;
+    });
+  }
+  void signOut () {
+    setState(() {
+      isSignedIn = !isSignedIn;
     });
   }
 
-  // Fungsi untuk mengenkripsi nama
-  String _encryptName(String name) {
-    final encrypted = encrypter.encrypt(name);
-    return encrypted.base64;
-  }
-
-  // Fungsi untuk mendekripsi nama
-  String _decryptName(String encryptedName) {
-    final decrypted = encrypter.decrypt64(encryptedName);
-    return decrypted;
-  }
-
-  // Fungsi sign in
-  void signIn() {
-    Navigator.pushNamed(context, '/register');
-  }
-
-  // Fungsi sign out
-  void signOut() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // Mengubah nilai isSignedIn menjadi false dan menghapus data
-    prefs.setBool('isSignedIn', false);
-    prefs.setString('name', '');
-    prefs.setString('username', '');
-    prefs.setString('password', '');
-    prefs.setInt('favoriteMovieCount', 0);
-
-    setState(() {
-      isSignedIn = false;
-      fullName = '';
-      userName = '';
-      favoriteMovieCount = 0;
-    });
-  }
-
-  // Fungsi untuk mengedit nama
-  void editFullName() async {
-    String newName = 'New User'; // Ganti dengan input pengguna
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String encryptedName = _encryptName(newName);
-
-    prefs.setString('name', encryptedName);
-
-    setState(() {
-      fullName = newName;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,9 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         if (isSignedIn)
                           IconButton(
-                            onPressed: () {
-                              editFullName(); // Mengedit nama saat icon diklik
-                            },
+                            onPressed: () {},
                             icon: Icon(
                               Icons.camera_alt,
                               color: Colors.blue[50],
@@ -215,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Expanded(
                       child: Text(
-                        ': $favoriteMovieCount',
+                        ': $FavoriteMovieCount',
                         style: TextStyle(
                           fontSize: 18,
                         ),

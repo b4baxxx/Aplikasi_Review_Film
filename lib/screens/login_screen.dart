@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'package:shared_preferences/shared_preferences.dart'; // Diperlukan untuk efek blur
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 
 class LoginScreen extends StatefulWidget {
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print('Sign in attempt');
       if (username.isNotEmpty && password.isNotEmpty) {
         final SharedPreferences prefs = await prefsFuture;
-        final data = await _retrieveAndDecryptDataFromPrefs(prefs);
+        final data = await _retrieveAndDecryptDataFromPrefs(prefs as Future<SharedPreferences>);
         if (data.isNotEmpty) {
           final decryptedUsername = data['username'];
           final decryptedPassword = data['password'];
