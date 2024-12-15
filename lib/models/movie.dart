@@ -1,4 +1,5 @@
 class Movie {
+  final int id;
   final String name;
   final String location;
   final String description;
@@ -9,6 +10,7 @@ class Movie {
   bool isFavorite;
 
   Movie({
+    required this.id,
     required this.name,
     required this.location,
     required this.description,

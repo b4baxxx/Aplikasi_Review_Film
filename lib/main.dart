@@ -27,7 +27,16 @@ class MyApp extends StatelessWidget {
       // home: HomeScreen(),
       // home: ProfileScreen(),
       // home: SearchScreen(),
-      home: RegisterScreen(),
+      // home: RegisterScreen(),
+      // home: MainScreen(),
+      // home: LoginScreen(),
+      initialRoute: '/',
+      routes: {
+        '/homescreen': (context) => const HomeScreen(),
+        '/wishlist': (context) => WishlistScreen(),
+        '/login': (context) => LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
+      },
     );
   }
 }
@@ -73,6 +82,10 @@ class _MainScreenState extends State<MainScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.search, color: Colors.black,),
               label: 'Search',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite, color: Colors.black,),
+              label: 'Wishlist',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person, color: Colors.black,),

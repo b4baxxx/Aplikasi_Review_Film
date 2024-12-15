@@ -2,6 +2,7 @@ import '../models/movie.dart';
 
 var movieList = [
   Movie (
+    id: 1,
     name: 'Fast X',
     location: 'Amerika',
     description:
@@ -20,6 +21,7 @@ var movieList = [
     isFavorite: false,
   ),
   Movie(
+    id: 2,
     name: 'Venom : The last Dance',
     location: 'Amerika',
     description:
@@ -40,6 +42,7 @@ var movieList = [
     isFavorite: false,
   ),
   Movie(
+    id: 3,
     name: 'Bila Esok Ibu Tiada',
     location: 'Indonesia',
     description:
@@ -58,6 +61,7 @@ var movieList = [
     isFavorite: false,
   ),
   Movie(
+    id: 4,
     name: 'The Wild Robot',
     location: 'Amerika',
     description:
@@ -75,6 +79,7 @@ var movieList = [
     isFavorite: false,
   ),
   Movie(
+    id: 5,
     name: 'Santet Sengoro Pitu',
     location: 'Indonesia',
     description:
@@ -92,6 +97,7 @@ var movieList = [
     isFavorite: false,
   ),
   Movie(
+    id: 6,
     name: 'Kung fu Panda',
     location: 'Amerika Serikat',
     description:
@@ -111,6 +117,7 @@ var movieList = [
     isFavorite: false,
   ),
   Movie(
+    id: 7,
     name: 'KKN Desa Penari',
     location: 'Indonesia',
     description:
@@ -129,6 +136,7 @@ var movieList = [
     isFavorite: false,
   ),
   Movie(
+    id: 8,
     name: 'Hellboy : The Crooked Man',
     location: 'Amerika',
     description:
@@ -148,6 +156,7 @@ var movieList = [
     isFavorite: false,
   ),
   Movie(
+    id: 9,
     name: 'Agak Laen',
     location: 'Indonesia',
     description:
@@ -166,6 +175,7 @@ var movieList = [
     isFavorite: false,
   ),
   Movie(
+    id: 10,
     name: 'Avengers : Age Of Ultron',
     location: 'Seluruh Dunia',
     description:
