@@ -1,11 +1,61 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:aplikasi_review_film/data/movie_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   final dynamic movie;
 
   const DetailScreen({super.key, required this.movie});
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  bool isFavorite = false;
+  bool isSignedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkSignInStatus();
+    _loadFavoriteStatus();
+  }
+
+  void _checkSignInStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool signedIn = prefs.getBool('IsSignedIn') ?? false;
+    setState(() {
+      isSignedIn = signedIn;
+    });
+  }
+
+  void _loadFavoriteStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool favorite = prefs.getBool('favorite_${widget.movie.name}') ?? false;
+    setState(() {
+      isFavorite = favorite;
+    });
+  }
+
+  Future<void> _toggleFavorite() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (!isSignedIn) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacementNamed(context, '/signin');
+      });
+      return;
+    }
+
+    bool favoriteStatus = !isFavorite;
+    prefs.setBool('favorite_${widget.movie.name}', favoriteStatus);
+
+    setState(() {
+      isFavorite = favoriteStatus;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +70,7 @@ class DetailScreen extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.asset(
-                      movie.imageAsset,
+                      widget.movie.imageAsset,
                       width: double.infinity,
                       height: 300,
                       fit: BoxFit.cover,
@@ -59,15 +109,20 @@ class DetailScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        movie.name,
+                        widget.movie.name,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.favorite, color: Colors.red,),
+                        onPressed: () {
+                          _toggleFavorite();
+                        },
+                        icon: Icon(isSignedIn && isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                          color: isSignedIn && isFavorite ? Colors.red : null,),
                       )
                     ],
                   ),
@@ -85,7 +140,7 @@ class DetailScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 30,),
-                      Text(': ${movie.location}'),
+                      Text(': ${widget.movie.location}'),
                     ],
                   ),
                   Row(
@@ -99,7 +154,7 @@ class DetailScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 38,),
-                      Text(': ${movie.built}')
+                      Text(': ${widget.movie.built}')
                     ],
                   ),
                   Row(
@@ -111,7 +166,7 @@ class DetailScreen extends StatelessWidget {
                         child: Text('Genre',style: TextStyle(
                             fontWeight: FontWeight.bold),),
                       ),
-                      Text(': ${movie.type}'),
+                      Text(': ${widget.movie.type}'),
                     ],
                   ),
                   SizedBox(height: 16),
@@ -120,7 +175,7 @@ class DetailScreen extends StatelessWidget {
                     'Deskripsi', style: TextStyle(
                     fontWeight: FontWeight.bold,),),
                   SizedBox(height: 10),
-                  Text('${movie.description}'),
+                  Text('${widget.movie.description}'),
                   SizedBox(height: 16),
                 ],
               ),
@@ -141,7 +196,7 @@ class DetailScreen extends StatelessWidget {
                     height: 100,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: movie.imageUrls.length,
+                      itemCount: widget.movie.imageUrls.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: EdgeInsets.only(left: 8),
@@ -158,7 +213,7 @@ class DetailScreen extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: CachedNetworkImage(
-                                  imageUrl: movie.imageUrls[index],
+                                  imageUrl: widget.movie.imageUrls[index],
                                   width: 120,
                                   height: 120,
                                   fit: BoxFit.cover,

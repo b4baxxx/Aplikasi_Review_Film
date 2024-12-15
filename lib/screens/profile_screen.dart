@@ -14,9 +14,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int FavoriteMovieCount = 0;
 
   void signIn () {
-    setState(() {
-      isSignedIn = !isSignedIn;
-    });
+    Navigator.pushNamed(context, '/register');
   }
 
   void signOut () {
