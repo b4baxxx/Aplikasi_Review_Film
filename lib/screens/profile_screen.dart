@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -11,15 +13,76 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isSignedIn = false;
   String fullName = '';
   String userName = '';
-  int FavoriteMovieCount = 0;
+  int favoriteMovieCount = 0;
 
-  void signIn () {
+  // Enkripsi key
+  final key = encrypt.Key.fromUtf8('');
+  final encrypter = encrypt.Encrypter(encrypt.AES(key));
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  // Fungsi untuk memuat data pengguna dari SharedPreferences
+  void _loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isSignedIn = prefs.getBool('isSignedIn') ?? false;
+      userName = prefs.getString('username') ?? '';
+      fullName = _decryptName(prefs.getString('name') ?? '');
+      favoriteMovieCount = prefs.getInt('favoriteMovieCount') ?? 0;
+    });
+  }
+
+  // Fungsi untuk mengenkripsi nama
+  String _encryptName(String name) {
+    final encrypted = encrypter.encrypt(name);
+    return encrypted.base64;
+  }
+
+  // Fungsi untuk mendekripsi nama
+  String _decryptName(String encryptedName) {
+    final decrypted = encrypter.decrypt64(encryptedName);
+    return decrypted;
+  }
+
+  // Fungsi sign in
+  void signIn() {
     Navigator.pushNamed(context, '/register');
   }
 
-  void signOut () {
+  // Fungsi sign out
+  void signOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Mengubah nilai isSignedIn menjadi false dan menghapus data
+    prefs.setBool('isSignedIn', false);
+    prefs.setString('name', '');
+    prefs.setString('username', '');
+    prefs.setString('password', '');
+    prefs.setInt('favoriteMovieCount', 0);
+
     setState(() {
-      isSignedIn = !isSignedIn;
+      isSignedIn = false;
+      fullName = '';
+      userName = '';
+      favoriteMovieCount = 0;
+    });
+  }
+
+  // Fungsi untuk mengedit nama
+  void editFullName() async {
+    String newName = 'New User'; // Ganti dengan input pengguna
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String encryptedName = _encryptName(newName);
+
+    prefs.setString('name', encryptedName);
+
+    setState(() {
+      fullName = newName;
     });
   }
 
@@ -52,10 +115,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             backgroundImage: AssetImage('images/profile.jpg'),
                           ),
                         ),
-                        if(isSignedIn)
+                        if (isSignedIn)
                           IconButton(
-                            onPressed: (){},
-                            icon: Icon(Icons.camera_alt, color: Colors.blue[50],),),
+                            onPressed: () {
+                              editFullName(); // Mengedit nama saat icon diklik
+                            },
+                            icon: Icon(
+                              Icons.camera_alt,
+                              color: Colors.blue[50],
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -65,19 +134,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(height: 4),
                 Row(
                   children: [
-                    SizedBox(width: MediaQuery.of(context).size.width / 3,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 3,
                       child: Row(
                         children: [
-                          Icon(Icons.lock, color: Colors.grey,),
+                          Icon(Icons.lock, color: Colors.grey),
                           SizedBox(width: 8),
-                          Text('Pengguna', style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold,
-                          ),),
+                          Text(
+                            'Pengguna',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
-                      ),),
+                      ),
+                    ),
                     Expanded(
-                      child: Text(': $userName', style: TextStyle(
-                        fontSize: 18,),),),
+                      child: Text(
+                        ': $userName',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 4),
@@ -85,20 +165,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(height: 4),
                 Row(
                   children: [
-                    SizedBox(width: MediaQuery.of(context).size.width / 3,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 3,
                       child: Row(
                         children: [
-                          Icon(Icons.person, color: Colors.blue,),
+                          Icon(Icons.person, color: Colors.blue),
                           SizedBox(width: 8),
-                          Text('Nama', style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold,
-                          ),),
+                          Text(
+                            'Nama',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
-                      ),),
+                      ),
+                    ),
                     Expanded(
-                      child: Text(': $fullName', style: TextStyle(
-                        fontSize: 18,),),),
-                    if(isSignedIn) Icon(Icons.edit),
+                      child: Text(
+                        ': $fullName',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    if (isSignedIn) Icon(Icons.edit),
                   ],
                 ),
                 SizedBox(height: 4),
@@ -106,26 +197,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(height: 4),
                 Row(
                   children: [
-                    SizedBox(width: MediaQuery.of(context).size.width / 3,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 3,
                       child: Row(
                         children: [
-                          Icon(Icons.favorite, color: Colors.red,),
+                          Icon(Icons.favorite, color: Colors.red),
                           SizedBox(width: 8),
-                          Text('Favorite', style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold,
-                          ),),
+                          Text(
+                            'Favorite',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
-                      ),),
+                      ),
+                    ),
                     Expanded(
-                      child: Text(': $FavoriteMovieCount', style: TextStyle(
-                        fontSize: 18,),),),
+                      child: Text(
+                        ': $favoriteMovieCount',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-                SizedBox(height: 4),
                 SizedBox(height: 4),
                 Divider(color: Colors.deepPurple[100]),
                 SizedBox(height: 20),
-                isSignedIn ? TextButton(onPressed: signOut, child: Text('Sign Out'))
+                isSignedIn
+                    ? TextButton(onPressed: signOut, child: Text('Sign Out'))
                     : TextButton(onPressed: signIn, child: Text('Sign In')),
               ],
             ),
