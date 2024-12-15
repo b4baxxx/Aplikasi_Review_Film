@@ -1,5 +1,7 @@
 import '../models/movie.dart';
 
+List<Movie> watchlist = [];
+
 var movieList = [
   Movie (
     id: 1,

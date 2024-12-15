@@ -36,7 +36,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
         .map((key) => key.substring('favorite_'.length))
         .toList();
 
-    print('Wishlist IDs: $wishlistMovieIds');
+    print('Movie list: ${movieList.map((m) => m.id).toList()}'); // Debug ID di movieList
+    print('Watchlist IDs: $wishlistMovieIds'); // Debug ID yang dimuat dari SharedPreferences
+    print('Filtered watchlist: ${watchListMovie.map((m) => m.name).toList()}'); // Debug hasil filter
 
     setState(() {
       watchListMovie = movieList.where((movie) {
@@ -52,7 +54,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wishlist Movie'),
+        title: Text('Watchlist Movie'),
       ),
       body: RefreshIndicator(
         onRefresh: _loadWishlistMovie,

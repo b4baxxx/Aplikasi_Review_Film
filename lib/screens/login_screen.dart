@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
             });
             // Sign in berhasil, navigasikan ke layar utama
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.pushReplacementNamed(context, '/homescreen');
             });
             print('Sign in succeeded');
           } else {
@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("images/cinema.jpg"),
+                image: AssetImage("images/logo.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
           // Blur effect
           Positioned.fill(
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
               child: Container(
                 color: Colors.black.withOpacity(0.2),
               ),
@@ -121,6 +121,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           labelText: "Nama Pengguna",
                           border: OutlineInputBorder(),
+                          filled: true,
+                          fillColor: Colors.white70
                         ),
                       ),
                       SizedBox(height: 20),
@@ -130,6 +132,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           labelText: "Kata Sandi",
                           errorText: _errorText.isNotEmpty ? _errorText : null,
                           border: OutlineInputBorder(),
+                          filled: true,
+                          fillColor: Colors.white70,
                           suffixIcon: IconButton(
                             onPressed: () {
                               setState(() {
@@ -144,6 +148,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         obscureText: _obscurePassword,
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: _signIn,
+                        child: const Text('Sign In'),
                       ),
                       SizedBox(height: 20),
                       // ElevatedButton(onPressed: () {}, child: Text('Sign In')),

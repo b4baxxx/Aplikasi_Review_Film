@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -13,19 +12,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isSignedIn = false;
   String fullName = '';
   String userName = '';
-  int FavoriteMovieCount = 0;
+  int favoriteMovieCount = 0;
 
-  void signIn () {
-    setState(() {
-      isSignedIn = !isSignedIn;
-    });
-  }
-  void signOut () {
-    setState(() {
-      isSignedIn = !isSignedIn;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileData();
   }
 
+  // Fungsi untuk memuat data profil dari SharedPreferences
+  Future<void> _loadProfileData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isSignedIn = prefs.getBool('isSignedIn') ?? false;
+      fullName = prefs.getString('fullName') ?? 'Nama Belum Diatur';
+      userName = prefs.getString('userName') ?? 'Pengguna Tidak Diketahui';
+    });
+  }
+
+  void signOut() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isSignedIn', false);
+    setState(() {
+      isSignedIn = false;
+      fullName = '';
+      userName = '';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +46,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Stack(
         children: [
           Container(
-            height: 200, width: double.infinity, color: Colors.blue,
+            height: 200,
+            width: double.infinity,
+            color: Colors.blue,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -51,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             border: Border.all(color: Colors.blue, width: 2),
                             shape: BoxShape.circle,
                           ),
-                          child: CircleAvatar(
+                          child: const CircleAvatar(
                             radius: 50,
                             backgroundImage: AssetImage('images/profile.jpg'),
                           ),
@@ -68,15 +83,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Divider(color: Colors.blue[100]),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Row(
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 3,
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(Icons.lock, color: Colors.grey),
                           SizedBox(width: 8),
                           Text(
@@ -92,22 +107,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Expanded(
                       child: Text(
                         ': $userName',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Divider(color: Colors.blue[100]),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Row(
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 3,
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(Icons.person, color: Colors.blue),
                           SizedBox(width: 8),
                           Text(
@@ -123,23 +138,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Expanded(
                       child: Text(
                         ': $fullName',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),
                     ),
-                    if (isSignedIn) Icon(Icons.edit),
                   ],
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Divider(color: Colors.blue[100]),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Row(
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 3,
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(Icons.favorite, color: Colors.red),
                           SizedBox(width: 8),
                           Text(
@@ -154,20 +168,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Expanded(
                       child: Text(
-                        ': $FavoriteMovieCount',
-                        style: TextStyle(
+                        ': $favoriteMovieCount',
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Divider(color: Colors.deepPurple[100]),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 isSignedIn
-                    ? TextButton(onPressed: signOut, child: Text('Sign Out'))
-                    : TextButton(onPressed: signIn, child: Text('Sign In')),
+                    ? TextButton(onPressed: signOut, child: const Text('Sign Out'))
+                    : const Text('Anda belum masuk'),
               ],
             ),
           ),

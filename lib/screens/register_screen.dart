@@ -30,30 +30,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
         !password.contains(RegExp(r'[0-9]')) ||
         !password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
       setState(() {
-        _errorText =
-        'Minimal 8 karakter, kombinasi [A-Z], [a-z], [0-9], [!@#\$%^&*(),.?":{}|<>]';
+        _errorText = 'Minimal 8 karakter, kombinasi [A-Z], [a-z], [0-9], [!@#\$%^&*(),.?":{}|<>]';
       });
       return;
     }
 
-    if(name.isNotEmpty && username.isNotEmpty && password.isNotEmpty) {
-      final key = encrypt.Key.fromLength(32);
-      final iv = encrypt.IV.fromLength(16);
+    if (name.isNotEmpty && username.isNotEmpty && password.isNotEmpty) {
+      final key = encrypt.Key.fromSecureRandom(32);
+      final iv = encrypt.IV.fromSecureRandom(16);
 
       final encrypter = encrypt.Encrypter(encrypt.AES(key));
       final encryptedName = encrypter.encrypt(name, iv: iv);
       final encryptedUsername = encrypter.encrypt(username, iv: iv);
       final encryptedPassword = encrypter.encrypt(password, iv: iv);
 
-
       prefs.setString('fullname', encryptedName.base64);
       prefs.setString('username', encryptedUsername.base64);
       prefs.setString('password', encryptedPassword.base64);
       prefs.setString('key', key.base64);
       prefs.setString('iv', iv.base64);
-    }
 
-    Navigator.pushReplacementNamed(context, '/signin');
+      Navigator.pushReplacementNamed(context, '/mainscreen');
+    }
   }
 
   @override
@@ -77,7 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("images/cinema.jpg"), // Path gambar
+                image: AssetImage("images/logo.jpg"), // Path gambar
                 fit: BoxFit.cover,
               ),
             ),

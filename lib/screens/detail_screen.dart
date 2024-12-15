@@ -44,17 +44,26 @@ class _DetailScreenState extends State<DetailScreen> {
 
     if (!isSignedIn) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacementNamed(context, '/signin');
+        Navigator.pushReplacementNamed(context, '/watchlist');
       });
       return;
     }
 
     bool favoriteStatus = !isFavorite;
-    prefs.setBool('favorite_${widget.movie.name}', favoriteStatus);
+    prefs.setBool('favorite_${widget.movie.id}', favoriteStatus);
 
     setState(() {
       isFavorite = favoriteStatus;
     });
+    if (favoriteStatus) {
+      // Tambahkan ke watchlist
+      if (!watchlist.contains(widget.movie)) {
+        watchlist.add(widget.movie);
+      }
+    } else {
+      // Hapus dari watchlist
+      watchlist.remove(widget.movie);
+    }
   }
 
   @override
