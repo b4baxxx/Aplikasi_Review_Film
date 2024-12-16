@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
             prefs.setBool('isSignedIn', true);
 
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.pushReplacementNamed(context, '/mainscreen');
+              Navigator.pushReplacementNamed(context, '/home');
             });
           } else {
             setState(() {

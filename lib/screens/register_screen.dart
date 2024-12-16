@@ -20,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _errorText = '';
   bool _obscurePassword = true;
 
-  void _signup() async {
+  void _signUp() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String name = _nameController.text.trim();
     final String username = _usernameController.text.trim();
@@ -61,7 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       prefs.setString('iv', iv.base64); // Simpan IV
       prefs.setString('key', key.base64);
 
-      Navigator.pushReplacementNamed(context, '/mainscreen');
+      Navigator.pushReplacementNamed(context, '/login');
     }
   }
 
@@ -181,7 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             backgroundColor: Colors.blue,
                             foregroundColor: Colors.black,
                           ),
-                          onPressed: _signup,
+                          onPressed: _signUp,
                           child: const Text('DAFTAR'),
                         ),
                         const SizedBox(height: 8),
@@ -195,14 +195,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             children: <TextSpan>[
                               TextSpan(
-                                text: ' Login disini!',
+                                text: 'Login disini!',
                                 style: const TextStyle(
                                   color: Colors.blueAccent,
                                   fontSize: 12,
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    Navigator.pushNamed(context, '/signin');
+                                    Navigator.pushNamed(context, '/login');
                                   },
                               ),
                             ],
