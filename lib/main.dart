@@ -28,14 +28,13 @@ class MyApp extends StatelessWidget {
       // home: ProfileScreen(),
       // home: SearchScreen(),
       // home: RegisterScreen(),
-      // home: MainScreen(),
+      home: const MainScreen(),
       // home: LoginScreen(),
-      initialRoute: '/login',
+      initialRoute: '/',
       routes: {
         '/homescreen': (context) => const HomeScreen(),
-        '/watchlist': (context) => WatchlistScreen(),
-        '/login': (context) => LoginScreen(),
-        '/register': (context) => const RegisterScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/register': (context) => RegisterScreen(),
       },
     );
   }

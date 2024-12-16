@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -9,35 +10,54 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  // Variabel profil
   bool isSignedIn = false;
   String fullName = '';
   String userName = '';
-  int favoriteMovieCount = 0;
+  String email = '';
+  String phoneNumber = '';
+
+
+  // Fungsi untuk mendekripsi data dari SharedPreferences
+  Future<void> _loadProfileData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? keyString = prefs.getString('key');
+    final String? ivString = prefs.getString('iv');
+
+    if (keyString != null && ivString != null) {
+      final key = encrypt.Key.fromBase64(keyString);
+      final iv = encrypt.IV.fromBase64(ivString);
+      final encrypter = encrypt.Encrypter(encrypt.AES(key));
+
+      // Dekripsi setiap data yang terenkripsi
+      setState(() {
+        fullName = encrypter.decrypt64(prefs.getString('name') ?? '', iv: iv);
+        userName = encrypter.decrypt64(prefs.getString('username') ?? '', iv: iv);
+        email = encrypter.decrypt64(prefs.getString('email') ?? '', iv: iv);
+        phoneNumber = encrypter.decrypt64(prefs.getString('no telepon') ?? '', iv: iv);
+        isSignedIn = fullName.isNotEmpty && userName.isNotEmpty;
+      });
+    } else {
+      setState(() {
+        isSignedIn = false;
+      });
+    }
+  }
+
+  void signOut() {
+    // });
+    Navigator.pushReplacementNamed(context, '/login');
+  }
+
+  // Navigasi ke halaman Sign In
+  void signIn() {
+    Navigator.pushReplacementNamed(context, '/login');
+  }
 
   @override
   void initState() {
     super.initState();
-    _loadProfileData();
-  }
-
-  // Fungsi untuk memuat data profil dari SharedPreferences
-  Future<void> _loadProfileData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      isSignedIn = prefs.getBool('isSignedIn') ?? false;
-      fullName = prefs.getString('fullName') ?? 'Nama Belum Diatur';
-      userName = prefs.getString('userName') ?? 'Pengguna Tidak Diketahui';
-    });
-  }
-
-  void signOut() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isSignedIn', false);
-    setState(() {
-      isSignedIn = false;
-      fullName = '';
-      userName = '';
-    });
+    _loadProfileData(); // Muat data saat layar dibuka
   }
 
   @override
@@ -54,10 +74,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
+                // Gambar Profil
                 Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 200 - 50),
+                    padding: const EdgeInsets.only(top: 150),
                     child: Stack(
                       alignment: Alignment.bottomRight,
                       children: [
@@ -66,127 +87,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             border: Border.all(color: Colors.blue, width: 2),
                             shape: BoxShape.circle,
                           ),
-                          child: const CircleAvatar(
+                          child: CircleAvatar(
                             radius: 50,
-                            backgroundImage: AssetImage('images/profile.jpg'),
+                            backgroundImage: AssetImage('images/logo.jpg'),
                           ),
                         ),
-                        if (isSignedIn)
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.camera_alt,
-                              color: Colors.blue[50],
-                            ),
-                          ),
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 4),
-                Divider(color: Colors.blue[100]),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Row(
-                        children: const [
-                          Icon(Icons.lock, color: Colors.grey),
-                          SizedBox(width: 8),
-                          Text(
-                            'Pengguna',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        ': $userName',
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Divider(color: Colors.blue[100]),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Row(
-                        children: const [
-                          Icon(Icons.person, color: Colors.blue),
-                          SizedBox(width: 8),
-                          Text(
-                            'Nama',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        ': $fullName',
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Divider(color: Colors.blue[100]),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: Row(
-                        children: const [
-                          Icon(Icons.favorite, color: Colors.red),
-                          SizedBox(width: 8),
-                          Text(
-                            'Favorite',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        ': $favoriteMovieCount',
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Divider(color: Colors.deepPurple[100]),
                 const SizedBox(height: 20),
+                // Informasi Profil
+                Divider(color: Colors.blue[100]),
+                _buildProfileRow('Nama', fullName, Icons.person, isSignedIn),
+                Divider(color: Colors.blue[100]),
+                _buildProfileRow('Username', userName, Icons.account_box, isSignedIn),
+                Divider(color: Colors.blue[100]),
+                _buildProfileRow('Email', email, Icons.email, isSignedIn),
+                Divider(color: Colors.blue[100]),
+                _buildProfileRow('Telepon', phoneNumber, Icons.phone, isSignedIn),
+                const SizedBox(height: 20),
+                // Tombol Sign In/Out
                 isSignedIn
-                    ? TextButton(onPressed: signOut, child: const Text('Sign Out'))
-                    : const Text('Anda belum masuk'),
+                    ? TextButton(
+                  onPressed: signOut,
+                  child: const Text('Sign Out'),
+                )
+                    : TextButton(
+                  onPressed: signIn,
+                  child: const Text('Sign In'),
+                ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  // Widget untuk membuat baris profil
+  Widget _buildProfileRow(String label, String value, IconData icon, bool isEditable) {
+    return Row(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 3,
+          child: Row(
+            children: [
+              Icon(icon, color: Colors.blue),
+              const SizedBox(width: 8),
+              Text(label,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold))
+            ],
+          ),
+        ),
+        Expanded(
+          child: Text(': $value', style: const TextStyle(fontSize: 18)),
+        ),
+      ],
     );
   }
 }
