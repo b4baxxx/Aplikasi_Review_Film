@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -10,14 +9,15 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  // Variabel profil
   bool isSignedIn = false;
   String fullName = '';
   String userName = '';
   String email = '';
-  String phoneNumber = '';
+  String phone = '';
+  int favorite = 0;
 
 
+<<<<<<< HEAD
   // Fungsi untuk mendekripsi data dari SharedPreferences
   Future<void> _loadProfileData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -60,97 +60,102 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void signIn() {
     Navigator.pushReplacementNamed(context, '/login');
   }
+=======
+>>>>>>> 3e1e28cf2a79b6cf2648b2037de175d144c6fc73
 
   @override
   void initState() {
     super.initState();
-    _loadProfileData(); // Muat data saat layar dibuka
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      fullName = prefs.getString('Nama') ?? '';
+      userName = prefs.getString('username') ?? '';
+      email = prefs.getString('email') ?? '';
+      phone = prefs.getString('notelpon') ?? '';
+      favorite = prefs.getInt('favorite') ?? 0;
+      isSignedIn = prefs.getBool('isSignedIn') ?? false;
+    });
+
+  }
+
+  Future<void> signOut() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isSignedIn', false);
+
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            height: 200,
-            width: double.infinity,
-            color: Colors.blue,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                // Gambar Profil
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 150),
-                    child: Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blue, width: 2),
-                            shape: BoxShape.circle,
-                          ),
-                          child: CircleAvatar(
-                            radius: 50,
-                            backgroundImage: AssetImage('images/logo.jpg'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+      appBar: AppBar(
+        title: const Text('Profile Screen'),
+        backgroundColor: Colors.blue,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 200,
+              width: double.infinity,
+              color: Colors.blue,
+              child: Center(
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: const AssetImage('images/profile.jpg'),
+                  backgroundColor: Colors.white,
+                  child: isSignedIn
+                      ? null
+                      : const Icon(Icons.person, size: 50, color: Colors.grey),
                 ),
-                const SizedBox(height: 20),
-                // Informasi Profil
-                Divider(color: Colors.blue[100]),
-                _buildProfileRow('Nama', fullName, Icons.person, isSignedIn),
-                Divider(color: Colors.blue[100]),
-                _buildProfileRow('Username', userName, Icons.account_box, isSignedIn),
-                Divider(color: Colors.blue[100]),
-                _buildProfileRow('Email', email, Icons.email, isSignedIn),
-                Divider(color: Colors.blue[100]),
-                _buildProfileRow('Telepon', phoneNumber, Icons.phone, isSignedIn),
-                const SizedBox(height: 20),
-                // Tombol Sign In/Out
-                isSignedIn
-                    ? TextButton(
-                  onPressed: signOut,
-                  child: const Text('Sign Out'),
-                )
-                    : TextButton(
-                  onPressed: signIn,
-                  child: const Text('Sign In'),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+
+            _buildProfileInfoRow('Nama Lengkap', fullName, Icons.person),
+            _buildProfileInfoRow('Username', userName, Icons.account_circle),
+            _buildProfileInfoRow('Email', email, Icons.email),
+            _buildProfileInfoRow('No Telepon', phone, Icons.phone),
+            _buildProfileInfoRow('Favorit', favorite.toString(), Icons.favorite),
+
+            const SizedBox(height: 20),
+
+            Center(
+              child: TextButton(
+                onPressed: isSignedIn ? signOut : signOut,
+                style: TextButton.styleFrom(
+                  backgroundColor: isSignedIn ? Colors.redAccent : Colors.blueAccent,
+                  foregroundColor: Colors.white,
+                ),
+                child: Text(isSignedIn ? 'Log Out' : 'Log In'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  // Widget untuk membuat baris profil
-  Widget _buildProfileRow(String label, String value, IconData icon, bool isEditable) {
-    return Row(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width / 3,
-          child: Row(
-            children: [
-              Icon(icon, color: Colors.blue),
-              const SizedBox(width: 8),
-              Text(label,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold))
-            ],
+  Widget _buildProfileInfoRow(String label, String value, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.deepOrangeAccent),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              '$label: $value',
+              style: const TextStyle(fontSize: 18),
+            ),
           ),
-        ),
-        Expanded(
-          child: Text(': $value', style: const TextStyle(fontSize: 18)),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

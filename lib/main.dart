@@ -8,6 +8,7 @@ import 'package:aplikasi_review_film/screens/search_screen.dart';
 import 'package:aplikasi_review_film/screens/watchlist_screen.dart';
 import 'package:flutter/material.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -15,17 +16,18 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MovieScope',
+        title: 'Movie Scope',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       // home: DetailScreen(),
-      // home: HomeScreen(),
       // home: ProfileScreen(),
+<<<<<<< HEAD
       // home: SearchScreen(),
       // home: RegisterScreen(),
       // home: const MainScreen(),
@@ -36,6 +38,20 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const MainScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => RegisterScreen(),
+=======
+      // home: HomeScreen(),
+      //home: ChatScreen(),
+      //home: SignInScreen(),
+      //home: SignUpScreen(),
+      //home: SearchScreen(),
+      //home: FavoriteScreen(),
+      home: MainScreen(),
+      initialRoute: '/',
+      routes: {
+        '/home' : (context) => const MainScreen(),
+        '/login' : (context) =>  LoginScreen(),
+        '/register' : (context) =>  RegisterScreen(),
+>>>>>>> 3e1e28cf2a79b6cf2648b2037de175d144c6fc73
       },
     );
   }
@@ -49,7 +65,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
+  //deklarasi Variabel
   int _currentIndex = 0;
 
   final List<Widget> _children = [
@@ -62,40 +78,41 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _children[_currentIndex],
+      body:  _children[_currentIndex],
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Colors.grey,
+          canvasColor: Colors.blue[50],
         ),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
-          onTap: (index) {
+          onTap: (index){
             setState(() {
               _currentIndex = index;
             });
           },
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.black,),
+              icon: Icon(Icons.home, color: Colors.blue,),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search, color: Colors.black,),
+              icon: Icon(Icons.search, color: Colors.blue,),
               label: 'Search',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.watch_later, color: Colors.black,),
+              icon: Icon(Icons.watch_later, color: Colors.blue,),
               label: 'Watchlist',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person, color: Colors.black,),
+              icon: Icon(Icons.person, color: Colors.blue,),
               label: 'Profile',
             ),
           ],
-          selectedItemColor: Colors.deepPurple,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.blue[100],
+          showUnselectedLabels: true,
         ),
       ),
     );
   }
 }
-
