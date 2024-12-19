@@ -1,10 +1,11 @@
+import 'package:aplikasi_review_film/models/movie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:aplikasi_review_film/data/movie_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailScreen extends StatefulWidget {
-  final dynamic movie;
+  final Movie movie;
 
   const DetailScreen({super.key, required this.movie});
 
@@ -14,57 +15,50 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   bool isFavorite = false;
-  bool isSignedIn = false;
+  // bool isSignedIn = false;
+
+  // Fungsi untuk menyimpan movie favorit ke SharedPreferences
+  Future<void> _toggleFavorite() async {
+    final prefs = await SharedPreferences.getInstance();
+    final favorites = prefs.getStringList('favorite_movies') ?? [];
+
+    if (isFavorite) {
+      // Jika sudah di-favorite, hapus dari daftar
+      favorites.remove(widget.movie.id.toString());
+    } else {
+      // Jika belum di-favorite, tambahkan ke daftar
+      favorites.add(widget.movie.id.toString());
+    }
+
+    await prefs.setStringList('favorite_movies', favorites);
+
+    setState(() {
+      isFavorite = !isFavorite;
+    });
+  }
+
+  Future<void> _loadFavoriteStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final favorites = prefs.getStringList('favorite_movies') ?? [];
+
+    setState(() {
+      isFavorite = favorites.contains(widget.movie.id.toString());
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _checkSignInStatus();
+    // _checkSignInStatus();
     _loadFavoriteStatus();
   }
-
-  void _checkSignInStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool signedIn = prefs.getBool('IsSignedIn') ?? false;
-    setState(() {
-      isSignedIn = signedIn;
-    });
-  }
-
-  void _loadFavoriteStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool favorite = prefs.getBool('favorite_${widget.movie.name}') ?? false;
-    setState(() {
-      isFavorite = favorite;
-    });
-  }
-
-  Future<void> _toggleFavorite() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    if (!isSignedIn) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacementNamed(context, '/watchlist');
-      });
-      return;
-    }
-
-    bool favoriteStatus = !isFavorite;
-    prefs.setBool('favorite_${widget.movie.id}', favoriteStatus);
-
-    setState(() {
-      isFavorite = favoriteStatus;
-    });
-    if (favoriteStatus) {
-      // Tambahkan ke watchlist
-      if (!watchlist.contains(widget.movie)) {
-        watchlist.add(widget.movie);
-      }
-    } else {
-      // Hapus dari watchlist
-      watchlist.remove(widget.movie);
-    }
-  }
+  // void _checkSignInStatus() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   bool signedIn = prefs.getBool('IsSignedIn') ?? false;
+  //   setState(() {
+  //     isSignedIn = signedIn;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -125,14 +119,21 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {
-                          _toggleFavorite();
-                        },
-                        icon: Icon(isSignedIn && isFavorite
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                          color: isSignedIn && isFavorite ? Colors.red : null,),
-                      )
+                        onPressed: _toggleFavorite,
+                        icon: Icon(
+                          isFavorite
+                              ?Icons.favorite
+                              :Icons.favorite_border,
+                          color: isFavorite ? Colors.red : Colors.grey,
+
+                        ),
+
+                      ),
+                      //   icon: Icon(isSignedIn && isFavorite
+                      //       ? Icons.favorite
+                      //       : Icons.favorite_border,
+                      //     color: isSignedIn && isFavorite ? Colors.red : null,),
+                      // )
                     ],
                   ),
                   SizedBox(height: 16),

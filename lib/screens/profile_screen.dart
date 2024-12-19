@@ -34,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         fullName = encrypter.decrypt64(prefs.getString('name') ?? '', iv: iv);
         userName = encrypter.decrypt64(prefs.getString('username') ?? '', iv: iv);
         email = encrypter.decrypt64(prefs.getString('email') ?? '', iv: iv);
-        phoneNumber = encrypter.decrypt64(prefs.getString('no telepon') ?? '', iv: iv);
+        phoneNumber = encrypter.decrypt64(prefs.getString('notelepon') ?? '', iv: iv);
         isSignedIn = fullName.isNotEmpty && userName.isNotEmpty;
       });
     } else {
@@ -44,9 +44,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void signOut() {
-    // });
-    Navigator.pushReplacementNamed(context, '/login');
+  Future<void> signOut() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // Menghapus semua data saat sign out
+    setState(() {
+      isSignedIn = false;
+      fullName = '';
+      userName = '';
+      email = '';
+      phoneNumber = '';
+    });
   }
 
   // Navigasi ke halaman Sign In

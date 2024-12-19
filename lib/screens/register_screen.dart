@@ -61,7 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       prefs.setString('iv', iv.base64); // Simpan IV
       prefs.setString('key', key.base64);
 
-      Navigator.pushReplacementNamed(context, '/mainscreen');
+      Navigator.pushReplacementNamed(context, '/login');
     }
   }
 
@@ -202,7 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    Navigator.pushNamed(context, '/signin');
+                                    Navigator.pushNamed(context, '/login');
                                   },
                               ),
                             ],
