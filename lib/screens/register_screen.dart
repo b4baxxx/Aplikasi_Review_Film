@@ -103,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Text(
-                          'Sign Up',
+                          'Register',
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 30,

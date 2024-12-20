@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 
@@ -10,12 +14,83 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String _imageFile = '';
+  final picker = ImagePicker();
+
+  Future<void> _saveImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('imagePath', _imageFile);
+  }
+
+  Future<void> _loadImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _imageFile = prefs.getString('imagePath') ?? '';
+    });
+  }
+
+  Future<void> _getImage(ImageSource source) async {
+    if (kIsWeb && source == ImageSource.camera) {
+      debugPrint('Kamera tidak didukung di Web. Gunakan perangkat fisik.');
+      return;
+    }
+
+    try {
+      final pickedFile = await picker.pickImage(
+        source: source,
+        maxHeight: 720,
+        maxWidth: 720,
+        imageQuality: 80,
+      );
+      if (pickedFile != null) {
+        setState(() {
+          _imageFile = pickedFile.path;
+        });
+        _saveImage();
+      } else {
+        debugPrint('No image selected.');
+      }
+    } catch (e) {
+      debugPrint('Error picking image: $e');
+    }
+  }
+
+  void _showPicker() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          color: Colors.indigo[50],
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_enhance, color: Colors.blue),
+                title: const Text('Camera'),
+                onTap: () {
+                  debugPrint('Kamera dipanggil');
+                  Navigator.of(context).pop();
+                  _getImage(ImageSource.camera);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library, color: Colors.blue),
+                title: const Text('Gallery'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _getImage(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
   bool isSignedIn = false;
   String fullName = '';
   String userName = '';
   String email = '';
   String phone = '';
-  int favorite = 0;
 
 
   // Fungsi untuk mendekripsi data dari SharedPreferences
@@ -44,35 +119,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  void signOut() {
+    Navigator.pushReplacementNamed(context, '/login');
+  }
+
   // Navigasi ke halaman Sign In
   void signIn() {
-    Navigator.pushReplacementNamed(context, '/login');
+    Navigator.pushNamed(context, '/login');
   }
 
   @override
   void initState() {
     super.initState();
-    _loadUserData();
-  }
-
-  Future<void> _loadUserData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      fullName = prefs.getString('Nama') ?? '';
-      userName = prefs.getString('username') ?? '';
-      email = prefs.getString('email') ?? '';
-      phone = prefs.getString('notelepon') ?? '';
-      favorite = prefs.getInt('favorite') ?? 0;
-      isSignedIn = prefs.getBool('isSignedIn') ?? false;
-    });
-
-  }
-
-  Future<void> signOut() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isSignedIn', false);
-
-    Navigator.pushReplacementNamed(context, '/login');
+    _loadProfileData();
   }
 
   @override
@@ -91,13 +150,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
               width: double.infinity,
               color: Colors.blue,
               child: Center(
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: const AssetImage('images/logo.jpg'),
-                  backgroundColor: Colors.white,
-                  child: isSignedIn
-                      ? null
-                      : const Icon(Icons.person, size: 50, color: Colors.grey),
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundImage: _imageFile.isNotEmpty
+                          ? FileImage(File(_imageFile))
+                          : const AssetImage('images/logo.jpg') as ImageProvider,
+                      backgroundColor: Colors.white,
+                      child: isSignedIn
+                          ? null
+                          : const Icon(Icons.person, size: 50, color: Colors.grey),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: IconButton(
+                        onPressed: _showPicker,
+                        icon: Icon(
+                          Icons.camera_alt,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -107,7 +183,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             _buildProfileInfoRow('Username', userName, Icons.account_circle),
             _buildProfileInfoRow('Email', email, Icons.email),
             _buildProfileInfoRow('No Telepon', phone, Icons.phone),
-            _buildProfileInfoRow('Favorit', favorite.toString(), Icons.favorite),
 
             const SizedBox(height: 20),
 

@@ -30,8 +30,16 @@ class _SearchScreenState extends State<SearchScreen> {
                 borderRadius: BorderRadius.circular(5),
                 color: Colors.blueGrey[50],
               ),
-              child: const TextField(
+              child: TextField(
                 autofocus: false,
+                onChanged: (query) {
+                  setState(() {
+                    _searchQuery = query.toLowerCase();
+                    _filteredMovies = movieList.where((mobil) {
+                      return mobil.name.toLowerCase().contains(_searchQuery);
+                    }).toList();
+                  });
+                },
                 decoration: InputDecoration(
                   hintText: 'Cari Film . . .',
                   prefixIcon: Icon(Icons.search),
