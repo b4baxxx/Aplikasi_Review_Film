@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -17,7 +18,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int favorite = 0;
 
 
-<<<<<<< HEAD
   // Fungsi untuk mendekripsi data dari SharedPreferences
   Future<void> _loadProfileData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -34,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         fullName = encrypter.decrypt64(prefs.getString('name') ?? '', iv: iv);
         userName = encrypter.decrypt64(prefs.getString('username') ?? '', iv: iv);
         email = encrypter.decrypt64(prefs.getString('email') ?? '', iv: iv);
-        phoneNumber = encrypter.decrypt64(prefs.getString('notelepon') ?? '', iv: iv);
+        phone = encrypter.decrypt64(prefs.getString('notelepon') ?? '', iv: iv);
         isSignedIn = fullName.isNotEmpty && userName.isNotEmpty;
       });
     } else {
@@ -44,24 +44,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  Future<void> signOut() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear(); // Menghapus semua data saat sign out
-    setState(() {
-      isSignedIn = false;
-      fullName = '';
-      userName = '';
-      email = '';
-      phoneNumber = '';
-    });
-  }
-
   // Navigasi ke halaman Sign In
   void signIn() {
     Navigator.pushReplacementNamed(context, '/login');
   }
-=======
->>>>>>> 3e1e28cf2a79b6cf2648b2037de175d144c6fc73
 
   @override
   void initState() {
@@ -75,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       fullName = prefs.getString('Nama') ?? '';
       userName = prefs.getString('username') ?? '';
       email = prefs.getString('email') ?? '';
-      phone = prefs.getString('notelpon') ?? '';
+      phone = prefs.getString('notelepon') ?? '';
       favorite = prefs.getInt('favorite') ?? 0;
       isSignedIn = prefs.getBool('isSignedIn') ?? false;
     });
@@ -93,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile Screen'),
+        title: const Text(''),
         backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
@@ -107,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Center(
                 child: CircleAvatar(
                   radius: 50,
-                  backgroundImage: const AssetImage('images/profile.jpg'),
+                  backgroundImage: const AssetImage('images/logo.jpg'),
                   backgroundColor: Colors.white,
                   child: isSignedIn
                       ? null

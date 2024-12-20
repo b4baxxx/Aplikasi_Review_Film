@@ -25,20 +25,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // home: DetailScreen(),
-      // home: ProfileScreen(),
-<<<<<<< HEAD
-      // home: SearchScreen(),
-      // home: RegisterScreen(),
-      // home: const MainScreen(),
-      // home: LoginScreen(),
-      home: LoginScreen(),
-      initialRoute: '/',
-      routes: {
-        '/home': (context) => const MainScreen(),
-        '/login': (context) => const LoginScreen(),
-        '/register': (context) => RegisterScreen(),
-=======
       // home: HomeScreen(),
       //home: ChatScreen(),
       //home: SignInScreen(),
@@ -51,7 +37,6 @@ class MyApp extends StatelessWidget {
         '/home' : (context) => const MainScreen(),
         '/login' : (context) =>  LoginScreen(),
         '/register' : (context) =>  RegisterScreen(),
->>>>>>> 3e1e28cf2a79b6cf2648b2037de175d144c6fc73
       },
     );
   }

@@ -145,7 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         TextFormField(
                           controller: _nomorController,
                           decoration: InputDecoration(
-                            labelText: 'No Telpon',
+                            labelText: 'No Telepon',
                             border: OutlineInputBorder(),
                             prefixIcon: const Icon(Icons.phone),
                           ),
