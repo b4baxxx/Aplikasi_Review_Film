@@ -1,10 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
+import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:aplikasi_review_film/screens/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -16,6 +16,18 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   String _imageFile = '';
   final picker = ImagePicker();
+  String fullName = '';
+  String userName = '';
+  String email = '';
+  String phoneNumber = '';
+  bool isSignedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileData();
+    _loadImage();
+  }
 
   Future<void> _saveImage() async {
     final prefs = await SharedPreferences.getInstance();
@@ -31,10 +43,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _getImage(ImageSource source) async {
     if (kIsWeb && source == ImageSource.camera) {
-      debugPrint('Kamera tidak didukung di Web. Gunakan perangkat fisik.');
+      debugPrint('Kamera tidak didukung di Web.');
       return;
     }
-
     try {
       final pickedFile = await picker.pickImage(
         source: source,
@@ -48,10 +59,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
         _saveImage();
       } else {
-        debugPrint('No image selected.');
+        debugPrint('Tidak ada gambar yang dipilih.');
       }
     } catch (e) {
-      debugPrint('Error picking image: $e');
+      debugPrint('Kesalahan saat memilih gambar: $e');
     }
   }
 
@@ -65,16 +76,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               ListTile(
                 leading: const Icon(Icons.camera_enhance, color: Colors.blue),
-                title: const Text('Camera'),
+                title: const Text('Kamera'),
                 onTap: () {
-                  debugPrint('Kamera dipanggil');
                   Navigator.of(context).pop();
                   _getImage(ImageSource.camera);
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.photo_library, color: Colors.blue),
-                title: const Text('Gallery'),
+                title: const Text('Galeri'),
                 onTap: () {
                   Navigator.of(context).pop();
                   _getImage(ImageSource.gallery);
@@ -86,16 +96,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
-  bool isSignedIn = false;
-  String fullName = '';
-  String userName = '';
-  String email = '';
-  String phone = '';
 
-
-  // Fungsi untuk mendekripsi data dari SharedPreferences
   Future<void> _loadProfileData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
     final String? keyString = prefs.getString('key');
     final String? ivString = prefs.getString('iv');
 
@@ -104,12 +107,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final iv = encrypt.IV.fromBase64(ivString);
       final encrypter = encrypt.Encrypter(encrypt.AES(key));
 
-      // Dekripsi setiap data yang terenkripsi
       setState(() {
         fullName = encrypter.decrypt64(prefs.getString('name') ?? '', iv: iv);
         userName = encrypter.decrypt64(prefs.getString('username') ?? '', iv: iv);
         email = encrypter.decrypt64(prefs.getString('email') ?? '', iv: iv);
-        phone = encrypter.decrypt64(prefs.getString('notelepon') ?? '', iv: iv);
+        phoneNumber = encrypter.decrypt64(prefs.getString('notelepon') ?? '', iv: iv);
         isSignedIn = fullName.isNotEmpty && userName.isNotEmpty;
       });
     } else {
@@ -119,104 +121,127 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void signOut() {
+  Future<void> signOut() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    setState(() {
+      isSignedIn = false;
+      fullName = '';
+      userName = '';
+      email = '';
+      phoneNumber = '';
+      _imageFile = '';
+    });
     Navigator.pushReplacementNamed(context, '/login');
-  }
-
-  // Navigasi ke halaman Sign In
-  void signIn() {
-    Navigator.pushNamed(context, '/login');
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadProfileData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
-        backgroundColor: Colors.blue,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 200,
-              width: double.infinity,
-              color: Colors.blue,
-              child: Center(
-                child: Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: _imageFile.isNotEmpty
-                          ? FileImage(File(_imageFile))
-                          : const AssetImage('images/logo.jpg') as ImageProvider,
-                      backgroundColor: Colors.white,
-                      child: isSignedIn
-                          ? null
-                          : const Icon(Icons.person, size: 50, color: Colors.grey),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: IconButton(
-                        onPressed: _showPicker,
-                        icon: Icon(
-                          Icons.camera_alt,
-                          color: Colors.grey,
+      body: Stack(
+        children: [
+          Container(
+            height: 200,
+            width: double.infinity,
+            color: Colors.blue,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              children: [
+                // Foto profil dipindahkan ke tengah
+                const SizedBox(height: 150), // Spacer untuk memindahkan konten
+                Center(
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black, width: 2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage: _imageFile.isNotEmpty
+                              ? (kIsWeb
+                              ? NetworkImage(_imageFile)
+                              : FileImage(File(_imageFile))) as ImageProvider
+                              : const AssetImage('images/placeholder_image.png'),
                         ),
                       ),
+                      IconButton(
+                        icon: const Icon(Icons.camera_alt_outlined, color: Colors.grey),
+                        onPressed: _showPicker,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                // Informasi Profil
+                Divider(color: Colors.black),
+                _buildProfileRow('Nama ', fullName, Icons.person),
+                Divider(color: Colors.black),
+                _buildProfileRow('Username ', userName, Icons.account_box),
+                Divider(color: Colors.black),
+                _buildProfileRow('Email ', email, Icons.email),
+                Divider(color: Colors.black),
+                _buildProfileRow('Telepon ', phoneNumber, Icons.phone),
+                const SizedBox(height: 20),
+                // Tombol Sign In/Out
+                isSignedIn
+                    ? ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ],
+                  ),
+                  onPressed: signOut,
+                  icon: const Icon(Icons.logout),
+                  label: const Text('Logout'),
+                )
+                    : ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text('Login'),
                 ),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            _buildProfileInfoRow('Nama Lengkap', fullName, Icons.person),
-            _buildProfileInfoRow('Username', userName, Icons.account_circle),
-            _buildProfileInfoRow('Email', email, Icons.email),
-            _buildProfileInfoRow('No Telepon', phone, Icons.phone),
-
-            const SizedBox(height: 20),
-
-            Center(
-              child: TextButton(
-                onPressed: isSignedIn ? signOut : signOut,
-                style: TextButton.styleFrom(
-                  backgroundColor: isSignedIn ? Colors.redAccent : Colors.blueAccent,
-                  foregroundColor: Colors.white,
-                ),
-                child: Text(isSignedIn ? 'Log Out' : 'Log In'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildProfileInfoRow(String label, String value, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.deepOrangeAccent),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              '$label: $value',
-              style: const TextStyle(fontSize: 18),
+              ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+
+  Widget _buildProfileRow(String label, String value, IconData icon) {
+    return Row(
+      children: [
+        Icon(icon, color: Colors.blue),
+        const SizedBox(width: 10),
+        Text(
+          '$label: ',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ),
+      ],
     );
   }
 }
